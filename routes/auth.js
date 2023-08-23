@@ -9,7 +9,7 @@ const auth = (req) => {
   }
   try {
     const decoded = jwt.verify(token, "secretkeyappearshere");
-    // console.log(decoded.username, decoded.email,);
+    // console.log(decoded.role);
     return {
       isLoggedin: true,
       username: decoded.username,

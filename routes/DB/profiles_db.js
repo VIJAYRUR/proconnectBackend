@@ -20,6 +20,8 @@ const Student_profileSchema = new mongoose.Schema({
 });
 
 const Professional_profileSchema = new mongoose.Schema({
+  username: String,
+  email: String,
   skills: [String],
   universityname: String,
   yearsofexperience: Number,

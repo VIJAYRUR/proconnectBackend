@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Candidate } = require("./user_db");
+const { Candidate } = require("./DB/user_db");
 
 // Register route
 router.post("/register", async (req, res) => {

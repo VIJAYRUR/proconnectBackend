@@ -1,20 +1,32 @@
 // entry point to the backend
 const express = require("express");
-const { user_connectDB } = require("./routes/user_db");
-const { profile_connectDB } = require("./routes/profiles_db");
+const app = express();
+const PORT = 3000;
+app.use(express.json());
+
+// collections
+const { user_connectDB } = require("./routes/DB/user_db");
+const { profile_connectDB } = require("./routes/DB/profiles_db");
+const { request_connectDB } = require("./routes/DB/request_db");
+const { feedback_connectDB } = require("./routes/DB/feedback_db");
+const { Scheduled_connectDB } = require("./routes/DB/scheduled_request_db");
 profile_connectDB();
 user_connectDB();
+request_connectDB();
+feedback_connectDB();
+Scheduled_connectDB();
 
 // routes
 const login_routes = require("./routes/logins");
 const register_routes = require("./routes/register");
 const student_profile_routes = require("./routes/student_profile");
 const professional_profile_routes = require("./routes/professional_profiles");
+const make_request_routes = require("./routes/interview_request");
+const match_request_routes = require("./routes/match_request");
+const view_scheduled_interview_routes = require("./routes/view_scheduled_interviews");
+const feedback_routes = require("./routes/feedback");
+const logout_routes = require("./routes/logout");
 
-const app = express();
-const PORT = 3000;
-
-app.use(express.json());
 app.listen(PORT, (error) => {
   if (!error) {
     console.log("Proconnect is online, please login");
@@ -39,3 +51,18 @@ app.use("/user", student_profile_routes);
 
 // professional profile
 app.use("/user", professional_profile_routes);
+
+// interview request
+app.use("/user", make_request_routes);
+
+// request matching
+app.use("/user", match_request_routes);
+
+// view scheduled interviews
+app.use("/user", view_scheduled_interview_routes);
+
+// feedback routes
+app.use("/user", feedback_routes);
+
+// logout
+app.use("/user", logout_routes);

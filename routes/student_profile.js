@@ -2,20 +2,21 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const { auth } = require("./auth");
-const { Student_Profile } = require("./profiles_db");
+const { Student_Profile } = require("./DB/profiles_db");
 
 router.post("/make_student_profile", async (req, res) => {
   const check = auth(req);
-  if (!check.isLoggedin || check.role === "professional") {
+  if (!check.isLoggedin || check.role == "professional") {
     return res.status(400).json({
       message: "User is not Logged In or not authorized to access this",
     });
   }
   const req_skills = req.body.skills;
-  const req_universityname = req.body.universityname;
+  const req_universityname = req.body.university;
   const req_universitycourse = req.body.universitycourse;
   const req_universitycgpa = req.body.universitycgpa;
   const req_passoutdate = req.body.passoutdate;
+  console.log(req_universityname);
   try {
     const new_profile = new Student_Profile({
       username: check.username,
@@ -26,6 +27,16 @@ router.post("/make_student_profile", async (req, res) => {
       passoutdate: req_passoutdate,
       skills: req_skills,
     });
+    const deletedUser = await Student_Profile.findOneAndDelete({
+      username: check.username,
+    });
+    if (deletedUser) {
+      await new_profile.save();
+      return res.status(200).end("Profile Edited successfully");
+    } else {
+      await new_profile.save();
+      return res.status(200).end("Profile Added successfully");
+    }
     await new_profile.save();
     return res.status(200).end("Profile Added successfully");
   } catch (e) {
