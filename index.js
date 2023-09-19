@@ -5,8 +5,22 @@ const app = express();
 const cors = require("cors");
 const PORT = 5000;
 
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', 'https://proconnect-frontend-be92.vercel.app');
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization'); // Add 'Authorization'
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Add any other HTTP methods you need
+
+//   next();
+// });
+
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://proconnect-frontend-be92.vercel.app');
+  const allowedOrigins = ['http://localhost:3000', 'https://proconnect-frontend-be92.vercel.app'];
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization'); // Add 'Authorization'
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Add any other HTTP methods you need
 
