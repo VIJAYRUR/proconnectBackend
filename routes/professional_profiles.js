@@ -25,7 +25,7 @@ router.post("/make_professional_profile", async (req, res) => {
     const new_profile = new Professional_Profile({
       username: check.username,
       email: check.email,
-      university: req_universityname,
+      universityname: req_universityname,
       yearsofexperience: req_yearsofexperience,
       currentlyworking: req_currentlyworking,
       currentrole: req_currentrole,

@@ -43,9 +43,10 @@ router.get("/view_all_request", async (req, res) => {
         matched_result.push(temp);
       }
     });
-
-    return res.json(matched_result);
+    console.log(matched_result);
+    return res.json([matched_result]);
   } catch (e) {
+    console.log(e);
     return res.status(500).end("Please try again later" + e);
   }
 });
@@ -69,6 +70,7 @@ router.post("/connect_to_request", async (req, res) => {
 
 router.post("/match_to_request", async (req, res) => {
   const check = auth(req);
+  console.log(check);
   if (check.isLoggedin == false && check.role == "student") {
     return res
       .status(400)
@@ -85,7 +87,7 @@ router.post("/match_to_request", async (req, res) => {
       date: req_date,
       time: req_time,
     });
-    console.log(verify_schedule);
+
     if (verify_schedule) {
       return res
         .status(400)
@@ -97,11 +99,13 @@ router.post("/match_to_request", async (req, res) => {
     const get_student = await Student_Profile.findOne({
       username: req_student_name,
     });
+    console.log(check);
+    console.log(get_student);
     const new_match = new Scheduled_Request({
       date: req_date,
       time: req_time,
       interviewer_name: req_interviewer_name,
-      interviewer_email: get_interviewer.email,
+      interviewer_email: check.email || "notprovided@gmail.com ",
       interviewer_company: get_interviewer.currentlyworking,
       interviewer_role: get_interviewer.currentrole,
       interviewer_experience: get_interviewer.yearsofexperience,
@@ -112,12 +116,14 @@ router.post("/match_to_request", async (req, res) => {
       student_CGPA: get_student.universitycgpa,
       student_passoutdate: get_student.passoutdate,
     });
+    console.log(new_match);
     await new_match.save();
     const del_active_requests = await Student_Request.findOneAndDelete({
       username: get_student.username,
     });
-    return res.status(200).end("the interview is scheduled");
+    return res.status(200).end("the interview is scheduled" + e);
   } catch (e) {
+    console.log(e);
     return res.status(400).end("please try again later " + e);
   }
 });

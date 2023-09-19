@@ -1,6 +1,7 @@
 // Connecting to the database
 const mongoose = require("mongoose");
-const mongoURI = "mongodb://0.0.0.0:27017/ProConnect";
+const mongoURI =
+  "mongodb+srv://proconnect522:ProConnectEpic@cluster0.tyjguvn.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp";
 
 const request_connectDB = async () => {
   mongoose
@@ -20,6 +21,7 @@ const Student_requestSchema = new mongoose.Schema({
   company_target: String,
   origin_target: String,
 });
+
 const Student_Request = mongoose.model(
   "active_requests",
   Student_requestSchema

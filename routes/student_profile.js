@@ -32,15 +32,15 @@ router.post("/make_student_profile", async (req, res) => {
     });
     if (deletedUser) {
       await new_profile.save();
-      return res.status(200).end("Profile Edited successfully");
+      return res.status(200).json({ message: "Profile Edited successfully" });
     } else {
       await new_profile.save();
-      return res.status(200).end("Profile Added successfully");
+      return res.status(200).json({ message: "Profile Added successfully" });
     }
     await new_profile.save();
-    return res.status(200).end("Profile Added successfully");
+    return res.status(200).json({ message: "Profile Added successfully" });
   } catch (e) {
-    res.status(400).end("Profile creating failed");
+    res.status(400).json({ message: "Profile creating failed" });
   }
 });
 

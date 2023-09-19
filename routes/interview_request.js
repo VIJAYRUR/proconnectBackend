@@ -9,9 +9,9 @@ const router = express.Router();
 router.post("/make_request", async (req, res) => {
   const check = auth(req);
   if (check.isLoggedin == false || check.role == "professional") {
-    return res
-      .status(400)
-      .end("your not Logged in or you are not allowed to acces this page ");
+    return res.status(400).json({
+      message: "your not Logged in or you are not allowed to acces this page ",
+    });
   }
   try {
     const req_username = check.username;
@@ -25,9 +25,9 @@ router.post("/make_request", async (req, res) => {
       username: req_username,
     });
     if (verify_active_request_from_users != null) {
-      return res
-        .status(400)
-        .end("you have aldready have a active request, please wait");
+      return res.status(400).json({
+        message: "you have aldready have a active request, please wait",
+      });
     }
     const req_getstudent = await Student_Profile.findOne({
       username: req_username,
@@ -49,41 +49,42 @@ router.post("/make_request", async (req, res) => {
     await new_request.save();
     return res.status(200).json(req_getstudent);
   } catch (e) {
-    res
-      .status(400)
-      .end("request can't be made, make your profile and try again " + e);
+    res.status(400).json({
+      message: "request can't be made, make your profile and try again " + e,
+    });
   }
 });
 
 router.get("/active_requests", async (req, res) => {
   const check = auth(req);
-  if (check.isLoggedin == false || check.role == "professional") {
-    return res
-      .status(400)
-      .end("Your must be Logged in or Your not allowed to access this page");
+  if (!check.isLoggedin || check.role === "professional") {
+    return res.status(400).json({
+      message:
+        "You must be logged in or you are not allowed to access this page",
+    });
   }
   try {
-    const get_request = await Student_Profile.findOne({
+    const get_request = await Student_Request.findOne({
       username: check.username,
       email: check.email,
     });
+
     if (get_request) {
-      res.status(200).json(get_request);
+      res.status(200).json([get_request]); // Return as an array with a single item
     } else {
-      res.status(200).end("you donot have any active requests");
+      res.status(200).json({ message: "You don't have any active requests" });
     }
   } catch (e) {
-    res.status(400).end("please try again later " + e);
+    res.status(400).json({ message: "Please try again later " + e });
   }
 });
 
 router.delete("/delete_active_request", async (req, res) => {
   const check = auth(req);
-  console.log(check.isLoggedin + " " + check.role);
   if (check.isLoggedIn == false || check.role == "professional") {
-    return res
-      .status(400)
-      .end("your not logged in or your not allowed to perform this action");
+    return res.status(400).json({
+      message: "your not logged in or your not allowed to perform this action",
+    });
   }
   try {
     const delete_result = await Student_Request.findOneAndDelete({
@@ -91,12 +92,14 @@ router.delete("/delete_active_request", async (req, res) => {
       email: check.email,
     });
     if (delete_result) {
-      res.status(200).end("You have successfully deleted the active request");
+      res
+        .status(200)
+        .json({ message: "You have successfully deleted the active request" });
     } else {
-      res.status(400).end("they are no active requests");
+      res.status(400).json({ message: "they are no active requests" });
     }
   } catch (e) {
-    res.status(400).end("please try again later");
+    res.status(400).json({ message: "please try again later" });
   }
 });
 

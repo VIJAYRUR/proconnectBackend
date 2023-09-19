@@ -1,8 +1,12 @@
 // entry point to the backend
 const express = require("express");
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
+const corsOptions = {
+  origin: "http://localhost:3000", // frontend URI (ReactJS)
+};
 app.use(express.json());
+app.use(cors(corsOptions));
 
 // collections
 const { user_connectDB } = require("./routes/DB/user_db");
@@ -26,6 +30,7 @@ const match_request_routes = require("./routes/match_request");
 const view_scheduled_interview_routes = require("./routes/view_scheduled_interviews");
 const feedback_routes = require("./routes/feedback");
 const logout_routes = require("./routes/logout");
+const report_routes = require("./routes/report");
 
 app.listen(PORT, (error) => {
   if (!error) {
@@ -66,3 +71,6 @@ app.use("/user", feedback_routes);
 
 // logout
 app.use("/user", logout_routes);
+
+// report
+app.use("/api", report_routes);

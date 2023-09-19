@@ -4,11 +4,12 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 const { Candidate } = require("./DB/user_db");
 
-router.get("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   const req_user = req.body.username;
   const req_pass = req.body.password;
   const req_role = req.body.role;
   const get_user = await Candidate.findOne({ username: req_user });
+
   // user not found
   if (!get_user) {
     return res.status(400).end("User not found");
@@ -18,9 +19,9 @@ router.get("/login", async (req, res) => {
     return res.status(400).end("password is incorrect");
   }
   if (get_user.role != req_role) {
-    return res
-      .status(400)
-      .end("please login with alloted role or make a new account");
+    return res.status(400).json({
+      message: "please login with alloted role or make a new account",
+    });
   }
   try {
     //Creating jwt token
@@ -34,12 +35,17 @@ router.get("/login", async (req, res) => {
       { expiresIn: "5h" }
     );
 
-    return res.status(200).json({ my_token: token });
+    return res
+      .status(200)
+      .json({
+        my_token: token,
+        role: get_user.role,
+        message: "Welcome " + req_role,
+      });
   } catch (err) {
     console.log(err);
-    res.status(400).end("Error occurred while creating session");
+    res.status(400).json({ message: "Error occurred while creating session" });
   }
-  return res.status(200).end("Welcome " + req_role);
 });
 
 module.exports = router;

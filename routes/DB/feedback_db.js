@@ -1,6 +1,7 @@
 // Connecting to the database
 const mongoose = require("mongoose");
-const mongoURI = "mongodb://0.0.0.0:27017/ProConnect";
+const mongoURI =
+  "mongodb+srv://proconnect522:ProConnectEpic@cluster0.tyjguvn.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp";
 
 const feedback_connectDB = async () => {
   mongoose

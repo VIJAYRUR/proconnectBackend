@@ -19,7 +19,7 @@ router.get("/view_student_schedule", async (req, res) => {
     const result = await Scheduled_Request.findOne({
       student_name: check.username,
     });
-    return res.status(200).json(result);
+    return res.status(200).json([result]);
   } catch (e) {
     return res.status(400).end("please try again later");
   }
@@ -38,7 +38,9 @@ router.get("/view_interviewer_schedule", async (req, res) => {
     const result = await Scheduled_Request.findOne({
       interviewer_name: check.username,
     });
-    return res.status(200).json(result);
+    console.log(result);
+    const arr = [];
+    return res.status(200).json([result]);
   } catch (e) {
     return res.status(400).end("please try again later");
   }
