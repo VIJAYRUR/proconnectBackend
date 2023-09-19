@@ -8,6 +8,7 @@ router.post("/login", async (req, res) => {
   const req_user = req.body.username;
   const req_pass = req.body.password;
   const req_role = req.body.role;
+  console.log(req_user);
   const get_user = await Candidate.findOne({ username: req_user });
   const all_detais= await Candidate.find(); 
   console.log(all_details)
