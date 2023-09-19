@@ -10,7 +10,7 @@ router.post("/login", async (req, res) => {
   const req_role = req.body.role;
   console.log(req_user);
   const get_user = await Candidate.findOne({ username: req_user });
-  const all_detais= await Candidate.find(); 
+  const all_details= await Candidate.find(); 
   console.log(all_details)
   // user not found
   if (!get_user) {
