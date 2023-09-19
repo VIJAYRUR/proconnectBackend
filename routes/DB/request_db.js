@@ -1,8 +1,6 @@
 // Connecting to the database
 const mongoose = require("mongoose");
-const mongoURI =
-  "mongodb+srv://proconnect522:ProConnectEpic@cluster0.tyjguvn.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp";
-
+const mongoURI ="mongodb+srv://proconnect522:ProConnectEpic@cluster0.tyjguvn.mongodb.net/ProConnect";
 const request_connectDB = async () => {
   mongoose
     .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
