@@ -16,11 +16,11 @@ const { profile_connectDB } = require("./routes/DB/profiles_db");
 const { request_connectDB } = require("./routes/DB/request_db");
 const { feedback_connectDB } = require("./routes/DB/feedback_db");
 const { Scheduled_connectDB } = require("./routes/DB/scheduled_request_db");
-profile_connectDB();
+// profile_connectDB();
 user_connectDB();
-request_connectDB();
-feedback_connectDB();
-Scheduled_connectDB();
+// request_connectDB();
+// feedback_connectDB();
+// Scheduled_connectDB();
 
 // routes
 const login_routes = require("./routes/logins");
