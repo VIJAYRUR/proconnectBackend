@@ -4,11 +4,13 @@ const app = express();
 
 const cors = require("cors");
 const PORT = 5000;
-const corsOptions = {
-  origin: "https://proconnect-frontend-6r18b24tl-vijayrur.vercel.app/", // frontend URI (ReactJS)
-};
+
+app.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      next();
+    });
 app.use(express.json());
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 // collections
 const { user_connectDB } = require("./routes/DB/user_db");
