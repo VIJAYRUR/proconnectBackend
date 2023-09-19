@@ -10,8 +10,7 @@ router.post("/login", async (req, res) => {
   const req_role = req.body.role;
   console.log(req_user);
   const get_user = await Candidate.findOne({ username: req_user });
-  const all_details= await Candidate.find(); 
-  console.log(all_details)
+  
   // user not found
   if (!get_user) {
     return res.status(400).json({message:"User not found"});
