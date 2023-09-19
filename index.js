@@ -1,6 +1,8 @@
 // entry point to the backend
 const express = require("express");
 const app = express();
+
+const cors = require("cors");
 const PORT = 5000;
 const corsOptions = {
   origin: "http://localhost:3000", // frontend URI (ReactJS)
