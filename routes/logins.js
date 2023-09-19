@@ -9,14 +9,15 @@ router.post("/login", async (req, res) => {
   const req_pass = req.body.password;
   const req_role = req.body.role;
   const get_user = await Candidate.findOne({ username: req_user });
-
+  const all_detais= await Candidate.find(); 
+  console.log(all_details)
   // user not found
   if (!get_user) {
-    return res.status(400).end("User not found");
+    return res.status(400).json({message:"User not found"});
   }
   // password doesnt match
   if (get_user.password != req_pass) {
-    return res.status(400).end("password is incorrect");
+    return res.status(400).json({message:"password is incorrect"});
   }
   if (get_user.role != req_role) {
     return res.status(400).json({
