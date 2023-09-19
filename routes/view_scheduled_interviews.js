@@ -35,7 +35,7 @@ router.get("/view_interviewer_schedule", async (req, res) => {
       );
   }
   try {
-    const result = await Scheduled_Request.findOne({
+    const result = await Scheduled_Request.find({
       interviewer_name: check.username,
     });
     console.log(result);
