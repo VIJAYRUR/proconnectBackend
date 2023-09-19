@@ -1,7 +1,6 @@
 // Connecting to the database
 const mongoose = require("mongoose");
-const mongoURI =
-  "mongodb+srv://proconnect522:ProConnectEpic@cluster0.tyjguvn.mongodb.net/ProConnect";
+const mongoURI ="mongodb+srv://proconnect522:ProConnectEpic@cluster0.tyjguvn.mongodb.net/ProConnect";
 
 const user_connectDB = async () => {
   mongoose
