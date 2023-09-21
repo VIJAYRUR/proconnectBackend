@@ -29,7 +29,8 @@ router.get("/view_all_request", async (req, res) => {
       const get_requirement_skills = i.skills_to_be_questioned;
       let length = get_requirement_skills.length;
       var count = 0;
-
+      console.log(get_requirement_skills);
+      console.log(get_professional_skills)
       for (const skill of get_professional_skills) {
         if (get_requirement_skills.includes(skill)) {
           count++;
