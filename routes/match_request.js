@@ -32,7 +32,7 @@ router.get("/view_all_request", async (req, res) => {
       console.log(get_requirement_skills);
       console.log(get_professional_skills)
       for (const skill of get_professional_skills) {
-        if (get_requirement_skills.includes(skill)) {
+        if (get_requirement_skills.includes(skill.trim())) {
           count++;
         }
       }
