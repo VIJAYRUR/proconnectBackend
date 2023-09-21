@@ -36,12 +36,12 @@ router.get("/view_all_request", async (req, res) => {
         }
       }
 
-      if ((count / length) * 100 > 0.5) {
+     
         let temp = [];
         temp.push((count / length) * 100);
         temp.push(i);
         matched_result.push(temp);
-      }
+     
     });
     console.log(matched_result);
     return res.json([matched_result]);
