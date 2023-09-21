@@ -35,8 +35,7 @@ router.get("/view_all_request", async (req, res) => {
           count++;
         }
       }
-
-     
+      console.log(get_requirement_skills.length);     
         let temp = [];
         temp.push((count / length) * 100);
         temp.push(i);
