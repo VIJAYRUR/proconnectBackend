@@ -53,23 +53,9 @@ router.get("/view_all_request", async (req, res) => {
 });
 
 router.post("/connect_to_request", async (req, res) => {
-  const check = auth(req);
-  if (check.isLoggedin == false || check.role == "student") {
-    return res
-      .status(401) // Unauthorized
-      .end("You might be logged out or you're not allowed to access this page");
+  function generateUniqueMeetLink() {
+    return `https://meet.google.com/${uuidv4()}`;
   }
-
-  try {
-    // Your logic for connecting to a request goes here
-
-    return res.json({ message: "Connected to the request successfully" });
-  } catch (e) {
-    return res.status(500).end("Please try again later" + e);
-  }
-});
-
-router.post("/match_to_request", async (req, res) => {
   const check = auth(req);
   console.log(check);
   if (check.isLoggedin == false && check.role == "student") {
@@ -92,21 +78,52 @@ router.post("/match_to_request", async (req, res) => {
     if (verify_schedule) {
       return res
         .status(400)
-        .end("Your have a scheduled interview in the same time selected");
+        .end("You have a scheduled interview at the same time selected");
     }
+
     const get_interviewer = await Professional_Profile.findOne({
       username: check.username,
     });
     const get_student = await Student_Profile.findOne({
       username: req_student_name,
     });
-    console.log(check);
-    console.log(get_student);
+
+    const googleMeetLink = generateUniqueMeetLink();
+
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: "proconnect522@gmail.com",
+        pass: "dkdb mhxd vgxt dabg",
+      },
+    });
+
+    const mailOptions = {
+      from: "proconnect522@gmail.com",
+      to: [get_interviewer.email, get_student.email],
+      subject: "Interview Meeting Link",
+      text: `You have an interview scheduled on ${req_date} at ${req_time}. Here is the Google Meet link: ${googleMeetLink} interviewer email:- ${get_interviewer.email}`,
+    };
+    const mailOptions2 = {
+      from: "proconnect522@gmail.com",
+      to: [get_interviewer.email, get_student.email],
+      subject: "Interview Meeting Link",
+      text: `You have an interview scheduled on ${req_date} at ${req_time}. Here is the Google Meet link: ${googleMeetLink} candidate email:- ${get_student.email}`,
+    };
+    try {
+      await transporter.sendMail(mailOptions);
+      await transporter.sendMail(mailOptions2);
+      console.log("successs");
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: "please try again later" });
+    }
+
     const new_match = new Scheduled_Request({
       date: req_date,
       time: req_time,
       interviewer_name: req_interviewer_name,
-      interviewer_email: check.email || "notprovided@gmail.com ",
+      interviewer_email: check.email || "notprovided@gmail.com",
       interviewer_company: get_interviewer.currentlyworking,
       interviewer_role: get_interviewer.currentrole,
       interviewer_experience: get_interviewer.yearsofexperience,
@@ -116,16 +133,19 @@ router.post("/match_to_request", async (req, res) => {
       student_course: get_student.universitycourse,
       student_CGPA: get_student.universitycgpa,
       student_passoutdate: get_student.passoutdate,
+      google_meet_link: googleMeetLink,
     });
-    console.log(new_match);
+
     await new_match.save();
+
     const del_active_requests = await Student_Request.findOneAndDelete({
       username: get_student.username,
     });
-    return res.status(200).end("the interview is scheduled" + e);
+
+    return res.status(200).end("The interview is scheduled");
   } catch (e) {
-    console.log(e);
-    return res.status(400).end("please try again later " + e);
+    console.error(e);
+    return res.status(400).end("Please try again later");
   }
 });
 
