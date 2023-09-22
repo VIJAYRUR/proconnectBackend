@@ -16,7 +16,7 @@ router.get("/view_student_schedule", async (req, res) => {
       );
   }
   try {
-    const result = await Scheduled_Request.findOne({
+    const result = await Scheduled_Request.find({
       student_name: check.username,
     });
     return res.status(200).json([result]);
