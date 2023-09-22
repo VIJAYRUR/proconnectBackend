@@ -14,7 +14,7 @@ const PORT = 5000;
 // });
 
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://localhost:3000', 'https://proconnect-frontend-5pueu869d-vijayrur.vercel.app/','https://proconnect-frontend-i41l-fuqasil3p-vijayrur.vercel.app','https://proconnect-frontend.vercel.app','https://proconnect-frontend-13ovwl20y-vijayrur.vercel.app'];
+  const allowedOrigins = ['http://localhost:3000', 'https://proconnect-frontend-5pueu869d-vijayrur.vercel.app','https://proconnect-frontend-i41l-fuqasil3p-vijayrur.vercel.app','https://proconnect-frontend.vercel.app','https://proconnect-frontend-13ovwl20y-vijayrur.vercel.app'];
   const origin = req.headers.origin;
 
   if (allowedOrigins.includes(origin)) {
