@@ -5,6 +5,8 @@ const { auth } = require("./auth");
 const { Professional_Profile, Student_Profile } = require("./DB/profiles_db");
 const { Scheduled_Request } = require("./DB/scheduled_request_db");
 const { Student_Request } = require("./DB/request_db.js");
+const nodemailer = require("nodemailer");
+const { v4: uuidv4 } = require("uuid");
 const { Feedback, feedback_connectDB } = require("./DB/feedback_db.js");
 
 router.post("/provide_feedback", async (req, res) => {
@@ -32,6 +34,27 @@ router.post("/provide_feedback", async (req, res) => {
       date: req_date,
       time: req_time,
     });
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: "proconnect522@gmail.com",
+        pass: "dkdb mhxd vgxt dabg",
+      },
+    });
+    const mailOptions1 = {
+      from: "proconnect522@gmail.com",
+      to: [req_student_email],
+      subject: "Interview Meeting Link",
+      text: `you have received a feedback from the interviewer ${req_interviewer_email} `,
+    };
+    try {
+      await transporter.sendMail(mailOptions1);
+      console.log("successs");
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: "please try again later" });
+    }
+
     await new_feedback.save();
     const del_data = await Scheduled_Request.deleteOne({
       interviewer_name: req_interviewer_name,
@@ -39,7 +62,7 @@ router.post("/provide_feedback", async (req, res) => {
       date: req_date,
       time: req_time,
     });
-    res.status(400).end("feedback sent");
+    res.status(200).end("feedback sent");
   } catch (e) {
     return res.status(400).end("please try again later " + e);
   }
