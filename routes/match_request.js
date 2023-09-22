@@ -101,13 +101,13 @@ router.post("/match_to_request", async (req, res) => {
 
     const mailOptions = {
       from: "proconnect522@gmail.com",
-      to: [get_interviewer.email, get_student.email],
+      to: [ get_student.email],
       subject: "Interview Meeting Link",
       text: `You have an interview scheduled on ${req_date} at ${req_time}. Here is the Google Meet link: ${googleMeetLink} interviewer email:- ${get_interviewer.email}`,
     };
     const mailOptions2 = {
       from: "proconnect522@gmail.com",
-      to: [get_interviewer.email, get_student.email],
+      to: [get_interviewer.email],
       subject: "Interview Meeting Link",
       text: `You have an interview scheduled on ${req_date} at ${req_time}. Here is the Google Meet link: ${googleMeetLink} candidate email:- ${get_student.email}`,
     };
