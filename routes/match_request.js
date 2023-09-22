@@ -55,7 +55,7 @@ router.get("/view_all_request", async (req, res) => {
 
 router.post("/match_to_request", async (req, res) => {
   function generateUniqueMeetLink() {
-    return `https://meet.google.com/${uuidv4()}`;
+    return `https://meet.google.com`
   }
   const check = auth(req);
   console.log(check);
