@@ -6,7 +6,6 @@ const { Professional_Profile, Student_Profile } = require("./DB/profiles_db");
 const { Scheduled_Request } = require("./DB/scheduled_request_db");
 const { Student_Request } = require("./DB/request_db.js");
 const nodemailer = require("nodemailer");
-const { v4: uuidv4 } = require("uuid");
 const { Feedback, feedback_connectDB } = require("./DB/feedback_db.js");
 
 router.post("/provide_feedback", async (req, res) => {
