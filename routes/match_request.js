@@ -2,6 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const { auth } = require("./auth");
+const nodemailer = require("nodemailer");
 const { Professional_Profile, Student_Profile } = require("./DB/profiles_db");
 const { Scheduled_Request } = require("./DB/scheduled_request_db");
 const { Student_Request } = require("./DB/request_db.js");
