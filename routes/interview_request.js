@@ -50,7 +50,7 @@ router.post("/make_request", async (req, res) => {
     return res.status(200).json(req_getstudent);
   } catch (e) {
     res.status(400).json({
-      message: "request can't be made, make your profile and try again " + e,
+      message: "request can't be made, make your profile and try again ",
     });
   }
 });
@@ -75,7 +75,7 @@ router.get("/active_requests", async (req, res) => {
       res.status(200).json({ message: "You don't have any active requests" });
     }
   } catch (e) {
-    res.status(400).json({ message: "Please try again later " + e });
+    res.status(400).json({ message: "Please try again later " });
   }
 });
 
