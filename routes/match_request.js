@@ -27,24 +27,34 @@ router.get("/view_all_request", async (req, res) => {
 
     const data = await Student_Request.find();
     data.forEach((i) => {
-      const get_requirement_skills = i.skills_to_be_questioned;
-      let length = 0;
-      var count = 0;
-      console.log(get_requirement_skills);
-      console.log(get_professional_skills)
-      for (const skill of get_professional_skills) {
-        length++;
-        if (get_requirement_skills.includes(skill.trim())) {
-          count++;
-        }
-      }
-      console.log(length);     
-        let temp = [];
-        temp.push((count / length) * 100);
-        temp.push(i);
-        matched_result.push(temp);
-     
-    });
+  const get_requirement_skills = i.skills_to_be_questioned;
+  const get_professional_skills = professional_skills; // Assuming you have this array defined somewhere
+
+  if (!Array.isArray(get_requirement_skills) || !Array.isArray(get_professional_skills)) {
+    console.error("Skills data is not an array.");
+    return; // Skip this iteration if skills data is not an array
+  }
+
+  let matchedSkillsCount = 0;
+  
+  for (const skill of get_requirement_skills) {
+    // Use .trim() to handle potential whitespace issues
+    const trimmedSkill = skill.trim();
+    
+    if (get_professional_skills.includes(trimmedSkill)) {
+      matchedSkillsCount++;
+    }
+  }
+  
+  const totalSkillsCount = get_requirement_skills.length; // Total skills in the requirement
+  
+  // Calculate the percentage match, considering the total skills in the requirement
+  const matchPercentage = (matchedSkillsCount / totalSkillsCount) * 100;
+
+  let temp = [matchPercentage, i];
+  matched_result.push(temp);
+});
+
     console.log(matched_result);
     return res.json([matched_result]);
   } catch (e) {
