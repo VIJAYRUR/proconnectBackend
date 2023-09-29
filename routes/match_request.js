@@ -28,8 +28,7 @@ router.get("/view_all_request", async (req, res) => {
     const data = await Student_Request.find();
     data.forEach((i) => {
   const get_requirement_skills = i.skills_to_be_questioned;
-  const get_professional_skills = professional_skills; // Assuming you have this array defined somewhere
-
+  
   if (!Array.isArray(get_requirement_skills) || !Array.isArray(get_professional_skills)) {
     console.error("Skills data is not an array.");
     return; // Skip this iteration if skills data is not an array
