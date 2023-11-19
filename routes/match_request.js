@@ -233,7 +233,7 @@ router.post("/match_to_request", async (req, res) => {
   to: [get_student.email],
   subject: "Interview Meeting Link",
   html: `
-    <p>Dear ${get_student.name},</p>
+    <p>Dear User,</p>
     <p>You have an interview scheduled on ${req_date} at ${req_time}. Here is the Google Meet link:</p>
     <a href="${googleMeetLink}" target="_blank">${googleMeetLink}</a>
     <p>Interviewer Email: ${get_interviewer.email}</p>
@@ -250,7 +250,7 @@ const mailOptions2 = {
   to: [get_interviewer.email],
   subject: "Interview Meeting Link",
   html: `
-    <p>Dear ${get_interviewer.name},</p>
+    <p>Dear User,</p>
     <p>You have an interview scheduled on ${req_date} at ${req_time}. Here is the Google Meet link:</p>
     <a href="${googleMeetLink}" target="_blank">${googleMeetLink}</a>
     <p>Candidate Email: ${get_student.email}</p>
