@@ -157,10 +157,7 @@ router.get("/view_all_request", async (req, res) => {
 //     console.error(e);
 //     return res.status(400).end("Please try again later");
 //   }
-// });
-const express = require('express');
-const nodemailer = require('nodemailer');
-const router = express.Router();
+
 
 router.post("/match_to_request", async (req, res) => {
   function generateUniqueMeetLink() {
