@@ -239,7 +239,7 @@ router.post("/match_to_request", async (req, res) => {
     <p>Interviewer Email: ${get_interviewer.email}</p>
     <p>Please click the link above to join the meeting.</p>
     <p>Best Regards,</p>
-    <p>Your Interview Scheduler</p>
+    <p>Team ProConnect - your interview scheduler</p>
     <br/>
     <p style="font-size: 80%; color: #888;">This is an automated email. Please do not reply.</p>
   `,
@@ -256,7 +256,7 @@ const mailOptions2 = {
     <p>Candidate Email: ${get_student.email}</p>
     <p>Please click the link above to join the meeting.</p>
     <p>Best Regards,</p>
-    <p>Your Interview Scheduler</p>
+    <p>Team ProConnect - your interview scheduler</p>
     <br/>
     <p style="font-size: 80%; color: #888;">This is an automated email. Please do not reply.</p>
   `,
