@@ -62,10 +62,120 @@ router.get("/view_all_request", async (req, res) => {
   }
 });
 
+// router.post("/match_to_request", async (req, res) => {
+//   function generateUniqueMeetLink() {
+//     return `https://meet.google.com`
+//   }
+//   const check = auth(req);
+//   console.log(check);
+//   if (check.isLoggedin == false && check.role == "student") {
+//     return res
+//       .status(400)
+//       .end("Your logged out or not allowed to access this page");
+//   }
+//   try {
+//     const req_interviewer_name = check.username;
+//     const req_student_name = req.body.studentname;
+//     const req_date = req.body.date;
+//     const req_time = req.body.time;
+
+//     const verify_schedule = await Scheduled_Request.findOne({
+//       interviewer_name: req_interviewer_name,
+//       date: req_date,
+//       time: req_time,
+//     });
+
+//     if (verify_schedule) {
+//       return res
+//         .status(400)
+//         .end("You have a scheduled interview at the same time selected");
+//     }
+
+//     const get_interviewer = await Professional_Profile.findOne({
+//       username: check.username,
+//     });
+//     const get_student = await Student_Profile.findOne({
+//       username: req_student_name,
+//     });
+
+//     const googleMeetLink = generateUniqueMeetLink();
+
+//     const transporter = nodemailer.createTransport({
+//       service: "Gmail",
+//       auth: {
+//         user: "proconnect522@gmail.com",
+//         pass: "dkdb mhxd vgxt dabg",
+//       },
+//     });
+
+//     const mailOptions = {
+//       from: "proconnect522@gmail.com",
+//       to: [ get_student.email],
+//       subject: "Interview Meeting Link",
+//       text: `You have an interview scheduled on ${req_date} at ${req_time}. Here is the Google Meet link: ${googleMeetLink} interviewer email:- ${get_interviewer.email}`,
+//     };
+//     const mailOptions2 = {
+//       from: "proconnect522@gmail.com",
+//       to: [get_interviewer.email],
+//       subject: "Interview Meeting Link",
+//       text: `You have an interview scheduled on ${req_date} at ${req_time}. Here is the Google Meet link: ${googleMeetLink} candidate email:- ${get_student.email}`,
+//     };
+//     try {
+//       await transporter.sendMail(mailOptions);
+//       await transporter.sendMail(mailOptions2);
+//       console.log("successs");
+//     } catch (err) {
+//       console.log(err);
+//       return res.status(400).json({ message: "please try again later" });
+//     }
+
+//     const new_match = new Scheduled_Request({
+//       date: req_date,
+//       time: req_time,
+//       interviewer_name: req_interviewer_name,
+//       interviewer_email: check.email || "notprovided@gmail.com",
+//       interviewer_company: get_interviewer.currentlyworking,
+//       interviewer_role: get_interviewer.currentrole,
+//       interviewer_experience: get_interviewer.yearsofexperience,
+//       student_name: req_student_name,
+//       student_email: get_student.email,
+//       student_university: get_student.university,
+//       student_course: get_student.universitycourse,
+//       student_CGPA: get_student.universitycgpa,
+//       student_passoutdate: get_student.passoutdate,
+//       google_meet_link: googleMeetLink,
+//     });
+
+//     await new_match.save();
+
+//     const del_active_requests = await Student_Request.findOneAndDelete({
+//       username: get_student.username,
+//     });
+
+//     return res.status(200).end("The interview is scheduled");
+//   } catch (e) {
+//     console.error(e);
+//     return res.status(400).end("Please try again later");
+//   }
+// });
+const express = require('express');
+const nodemailer = require('nodemailer');
+const router = express.Router();
+
 router.post("/match_to_request", async (req, res) => {
   function generateUniqueMeetLink() {
-    return `https://meet.google.com`
+    const getRandomAlphabets = (length) => {
+      const alphabets = 'abcdefghijklmnopqrstuvwxyz';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += alphabets.charAt(Math.floor(Math.random() * alphabets.length));
+      }
+      return result;
+    };
+
+    return `https://meet.google.com/${getRandomAlphabets(3)}-${getRandomAlphabets(4)}-${getRandomAlphabets(3)}`;
   }
+
   const check = auth(req);
   console.log(check);
   if (check.isLoggedin == false && check.role == "student") {
@@ -73,6 +183,7 @@ router.post("/match_to_request", async (req, res) => {
       .status(400)
       .end("Your logged out or not allowed to access this page");
   }
+
   try {
     const req_interviewer_name = check.username;
     const req_student_name = req.body.studentname;
@@ -120,6 +231,7 @@ router.post("/match_to_request", async (req, res) => {
       subject: "Interview Meeting Link",
       text: `You have an interview scheduled on ${req_date} at ${req_time}. Here is the Google Meet link: ${googleMeetLink} candidate email:- ${get_student.email}`,
     };
+
     try {
       await transporter.sendMail(mailOptions);
       await transporter.sendMail(mailOptions2);
